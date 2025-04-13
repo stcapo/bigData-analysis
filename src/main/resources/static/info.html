@@ -7,14 +7,27 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
+        /* Override the fixed positioning from style.css to allow scrolling */
+        html, body {
+            position: relative !important;
+            height: auto !important;
+            min-height: 100%;
+            overflow-y: auto !important;
+        }
+        
         .info-container {
             background-color: rgba(1, 202, 217, 0.2);
             border-radius: 10px;
             padding: 20px;
-            margin: 20px auto;
+            margin: 20px auto 50px auto; /* Added bottom margin */
             width: 90%;
             max-width: 1200px;
             color: #fff;
+        }
+        
+        /* Ensure content has enough bottom padding for scrolling */
+        .bnt + div {
+            padding-bottom: 40px;
         }
 
         .profile-header {
@@ -111,6 +124,7 @@
             padding: 20px;
             margin: 20px 0;
             height: 300px;
+            overflow: visible;
         }
 
         .chart-title {
@@ -564,6 +578,11 @@
             const chartDom = document.getElementById('skillRadarChart');
             const myChart = echarts.init(chartDom);
             
+            // 确保图表在可见区域内正确渲染
+            setTimeout(() => {
+                myChart.resize();
+            }, 100);
+            
             const option = {
                 backgroundColor: 'transparent',
                 tooltip: {
@@ -607,10 +626,18 @@
             
             myChart.setOption(option);
             
-            // 窗口大小变化时重绘图表
+            // 窗口大小变化或滚动时重绘图表
             window.addEventListener('resize', function() {
                 myChart.resize();
             });
+            
+            // 当页面滚动时确保图表正确显示
+            window.addEventListener('scroll', function() {
+                myChart.resize();
+            });
+            
+            // 滚动到顶部以确保所有内容可见
+            window.scrollTo(0, 0);
         }
     </script>
 </body>

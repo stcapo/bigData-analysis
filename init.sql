@@ -196,3 +196,16 @@ INSERT INTO traffic_prediction (date_label, congestion_value, is_prediction, rec
 ('明天', 7.8, 1, '2025-03-28'),
 ('后天', 8.2, 1, '2025-03-29'),
 ('大后天', 7.6, 1, '2025-03-30');
+
+-- 管理员表
+CREATE TABLE admin_user (
+    user_id INT PRIMARY KEY AUTO_INCREMENT COMMENT '用户ID',
+    username VARCHAR(50) NOT NULL COMMENT '用户名',
+    password VARCHAR(100) NOT NULL COMMENT '密码',
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    last_login_time DATETIME COMMENT '最后登录时间',
+    UNIQUE KEY idx_username (username) COMMENT '用户名唯一索引'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='管理员用户';
+
+-- 插入管理员数据
+INSERT INTO admin_user (username, password) VALUES ('admin', 'admin');
