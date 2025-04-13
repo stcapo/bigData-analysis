@@ -161,13 +161,16 @@
                     successMessage.textContent = data.message;
                     successMessage.style.display = 'block';
                     
-                    // 可以在这里保存token和跳转到主页
+                    // 保存token和用户信息到localStorage
                     localStorage.setItem('token', data.token);
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('password', password); // 注意：在实际生产环境中不应存储明文密码
+                    localStorage.setItem('loginTime', new Date().toISOString());
                     
-                    // 延迟后跳转到conflicts.html页面
+                    // 延迟后跳转到用户信息页面
                     setTimeout(() => {
                         alert('登录成功！欢迎使用系统。');
-                        window.location.href = '/traffic.html';
+                        window.location.href = '/info.html';
                     }, 1000);
                 } else {
                     errorMessage.textContent = data.message;

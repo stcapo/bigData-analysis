@@ -1,10 +1,617 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户信息 - 大数据分析平台</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .info-container {
+            background-color: rgba(1, 202, 217, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 1200px;
+            color: #fff;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .avatar-container {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 30px;
+            border: 4px solid rgba(0, 183, 238, 0.6);
+        }
+
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .user-title {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+        }
+
+        .user-meta {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            margin-right: 20px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .meta-item strong {
+            color: #24c9ff;
+            margin-right: 5px;
+        }
+
+        .stats-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            flex: 1;
+            min-width: 200px;
+            background-color: rgba(1, 202, 217, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .c24c9ff { color: #24c9ff; }
+        .ceeb1fd { color: #eeb1fd; }
+        .cffff00 { color: #ffff00; }
+        .c11e2dd { color: #11e2dd; }
+
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .data-visualization {
+            background-color: rgba(1, 202, 217, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            height: 300px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .recent-activities, .data-projects {
+            background-color: rgba(1, 202, 217, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .activity-item, .project-item {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .activity-item:last-child, .project-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-time, .project-status {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 5px;
+        }
+
+        .project-title {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .project-desc {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 5px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .skill-tag {
+            background-color: rgba(0, 183, 238, 0.3);
+            border-radius: 15px;
+            padding: 5px 12px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(135deg, #3ab990, #134e8a);
+            transform: translateY(-2px);
+        }
+
+        .two-column {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px;
+            padding: 0 10px;
+        }
+
+        .progress-container {
+            margin-bottom: 15px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar-bg {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            height: 8px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 5px;
+        }
+
+        .navbar {
+            background-color: rgba(1, 202, 217, 0.3);
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+        }
+
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #43cea2;
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover:after,
+        .nav-link.active:after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: #43cea2;
+        }
+    </style>
 </head>
 <body>
+    <div class="bnt">
+        <div class="topbnt_left fl">
+            <ul>
+                <li><a href="traffic.html">交通分析</a></li>
+                <li><a href="history.html">历史数据</a></li>
+                <li><a href="predict.html">预测数据</a></li>
+                <li class="active"><a href="info.html">个人信息</a></li>
+            </ul>
+        </div>
+        <div class="tith1 fl">大数据分析平台</div>
+    </div>
 
+    <div class="info-container">
+        <div class="navbar">
+            <div class="nav-links">
+                <a href="#" class="nav-link active">个人主页</a>
+            </div>
+            <button id="logoutBtn" class="logout-btn">退出登录</button>
+        </div>
+
+        <div class="profile-header">
+            <div class="avatar-container">
+                <img id="userAvatar" src="" alt="用户头像">
+            </div>
+            <div class="user-info">
+                <h1 class="user-name" id="displayUsername"></h1>
+                <div class="user-title" id="userTitle"></div>
+                <div class="user-meta">
+                    <div class="meta-item">
+                        <strong>部门：</strong>
+                        <span id="department"></span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>职位：</strong>
+                        <span id="position"></span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>登录时间：</strong>
+                        <span id="loginTimeDisplay"></span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>权限级别：</strong>
+                        <span id="accessLevel"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-value c24c9ff" id="projectCount">0</div>
+                <div class="stat-label">项目数量</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value ceeb1fd" id="datasetCount">0</div>
+                <div class="stat-label">数据集数量</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value cffff00" id="analysisCount">0</div>
+                <div class="stat-label">分析报告</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value c11e2dd" id="taskCompletion">0%</div>
+                <div class="stat-label">任务完成率</div>
+            </div>
+        </div>
+
+        <div class="data-visualization">
+            <div class="chart-title">员工数据分析能力评估</div>
+            <div id="skillRadarChart" style="width: 100%; height: 250px;"></div>
+        </div>
+
+        <div class="two-column">
+            <div class="column">
+                <div class="recent-activities">
+                    <h3 class="section-title">最近活动</h3>
+                    <div id="activitiesList"></div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="data-projects">
+                    <h3 class="section-title">当前项目</h3>
+                    <div id="projectsList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="recent-activities">
+            <h3 class="section-title">技能熟练度</h3>
+            <div id="skillsList">
+                <!-- 技能熟练度将通过JavaScript生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <script>
+        // 从 localStorage 中获取用户信息
+        document.addEventListener('DOMContentLoaded', function() {
+            const username = localStorage.getItem('username') || '未知用户';
+            const loginTime = localStorage.getItem('loginTime') || new Date().toISOString();
+            
+            // 生成随机头像
+            const avatarId = Math.floor(Math.random() * 1000);
+            document.getElementById('userAvatar').src = `data:image/jpeg;base64,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`;
+            
+            // 设置用户名称
+            document.getElementById('displayUsername').textContent = username;
+            
+            // 格式化并显示登录时间
+            const loginDate = new Date(loginTime);
+            const formattedDate = `${loginDate.getFullYear()}-${String(loginDate.getMonth() + 1).padStart(2, '0')}-${String(loginDate.getDate()).padStart(2, '0')} ${String(loginDate.getHours()).padStart(2, '0')}:${String(loginDate.getMinutes()).padStart(2, '0')}`;
+            document.getElementById('loginTimeDisplay').textContent = formattedDate;
+            
+            // 生成随机用户信息
+            const titles = [
+                '高级数据分析师', '人工智能研究员', '数据科学家', 
+                '大数据架构师', '深度学习工程师', '数据挖掘专家'
+            ];
+            
+            const departments = [
+                '人工智能部', '算法研发部', '数据挖掘部', 
+                '可视化平台部', '大数据研发中心', '交通智能中心'
+            ];
+            
+            const positions = [
+                '高级工程师', '技术经理', '研究员', 
+                '项目主管', '技术专家', '首席科学家'
+            ];
+            
+            const accessLevels = ['管理员', '高级用户', '标准用户', '访客'];
+            
+            // 随机生成信息
+            document.getElementById('userTitle').textContent = titles[Math.floor(Math.random() * titles.length)];
+            document.getElementById('department').textContent = departments[Math.floor(Math.random() * departments.length)];
+            document.getElementById('position').textContent = positions[Math.floor(Math.random() * positions.length)];
+            document.getElementById('accessLevel').textContent = accessLevels[0];
+            
+            // 生成随机统计数据
+            document.getElementById('projectCount').textContent = Math.floor(Math.random() * 50) + 10;
+            document.getElementById('datasetCount').textContent = Math.floor(Math.random() * 100) + 50;
+            document.getElementById('analysisCount').textContent = Math.floor(Math.random() * 30) + 5;
+            document.getElementById('taskCompletion').textContent = Math.floor(Math.random() * 30) + 70 + '%';
+            
+            // 生成随机活动
+            const activities = [
+                '完成了《交通流量预测模型》的训练和部署',
+                '参与了《智能交通系统》项目评审会议',
+                '提交了《大数据平台性能优化》的分析报告',
+                '更新了《实时数据处理系统》的架构文档',
+                '参加了《机器学习前沿技术》研讨会',
+                '完成了《智能路口识别系统》的测试',
+                '提交了《数据安全和隐私保护》的建议书',
+                '参与了《职业技能提升》的内部培训'
+            ];
+            
+            const times = [
+                '2小时前', '5小时前', '昨天', '2天前', 
+                '3天前', '上周', '2周前', '本月初'
+            ];
+            
+            const activitiesList = document.getElementById('activitiesList');
+            for (let i = 0; i < 5; i++) {
+                const activityIndex = Math.floor(Math.random() * activities.length);
+                const timeIndex = Math.floor(Math.random() * times.length);
+                
+                const activityEl = document.createElement('div');
+                activityEl.className = 'activity-item';
+                activityEl.innerHTML = `
+                    <div>${activities[activityIndex]}</div>
+                    <div class="activity-time">${times[timeIndex]}</div>
+                `;
+                activitiesList.appendChild(activityEl);
+                
+                // 避免重复活动
+                activities.splice(activityIndex, 1);
+                times.splice(timeIndex, 1);
+            }
+            
+            // 生成随机项目
+            const projects = [
+                {
+                    title: '智能交通系统',
+                    desc: '基于机器学习和计算机视觉的交通监控与预测系统',
+                    status: '进行中 - 75%',
+                    skills: ['机器学习', '深度学习', '计算机视觉', 'Python', 'TensorFlow']
+                },
+                {
+                    title: '大数据可视化平台',
+                    desc: '集成多源数据的可视化展示和分析平台',
+                    status: '已完成 - 100%',
+                    skills: ['JavaScript', 'ECharts', 'D3.js', 'Vue.js', '数据可视化']
+                },
+                {
+                    title: '实时数据流处理系统',
+                    desc: '基于流式计算框架的高并发实时数据处理系统',
+                    status: '进行中 - 40%',
+                    skills: ['Spark', 'Kafka', 'Flink', 'Java', '分布式系统']
+                },
+                {
+                    title: '智能预警系统',
+                    desc: '基于历史数据和机器学习的异常交通状况预警系统',
+                    status: '规划中 - 10%',
+                    skills: ['时间序列分析', '异常检测', 'Python', 'R', '数据挖掘']
+                },
+                {
+                    title: '多模态交通数据融合',
+                    desc: '整合交通视频、雷达、GPS等多源数据的融合分析系统',
+                    status: '进行中 - 60%',
+                    skills: ['信息融合', '图像处理', '信号处理', 'MATLAB', 'C++']
+                }
+            ];
+            
+            const projectsList = document.getElementById('projectsList');
+            // 随机选择3个项目显示
+            const selectedProjects = [];
+            while (selectedProjects.length < 3 && projects.length > 0) {
+                const index = Math.floor(Math.random() * projects.length);
+                selectedProjects.push(projects[index]);
+                projects.splice(index, 1);
+            }
+            
+            selectedProjects.forEach(project => {
+                const projectEl = document.createElement('div');
+                projectEl.className = 'project-item';
+                
+                let skillTagsHtml = '';
+                project.skills.forEach(skill => {
+                    skillTagsHtml += `<span class="skill-tag">${skill}</span>`;
+                });
+                
+                projectEl.innerHTML = `
+                    <div class="project-title">${project.title}</div>
+                    <div class="project-desc">${project.desc}</div>
+                    <div class="project-status">${project.status}</div>
+                    <div class="skill-tags">${skillTagsHtml}</div>
+                `;
+                projectsList.appendChild(projectEl);
+            });
+            
+            // 生成技能熟练度
+            const skills = [
+                { name: '数据分析', value: Math.floor(Math.random() * 30) + 70 },
+                { name: '机器学习', value: Math.floor(Math.random() * 40) + 60 },
+                { name: '数据可视化', value: Math.floor(Math.random() * 25) + 75 },
+                { name: 'Python', value: Math.floor(Math.random() * 20) + 80 },
+                { name: 'SQL', value: Math.floor(Math.random() * 15) + 85 },
+                { name: '大数据框架', value: Math.floor(Math.random() * 40) + 60 },
+                { name: '深度学习', value: Math.floor(Math.random() * 50) + 50 },
+                { name: '统计学', value: Math.floor(Math.random() * 35) + 65 }
+            ];
+            
+            const skillsList = document.getElementById('skillsList');
+            skills.forEach(skill => {
+                const skillEl = document.createElement('div');
+                skillEl.className = 'progress-container';
+                
+                const colorClass = ['c24c9ff', 'ceeb1fd', 'cffff00', 'c11e2dd'][Math.floor(Math.random() * 4)];
+                
+                skillEl.innerHTML = `
+                    <div class="progress-label">
+                        <span>${skill.name}</span>
+                        <span>${skill.value}%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill ${colorClass}" style="width: ${skill.value}%"></div>
+                    </div>
+                `;
+                skillsList.appendChild(skillEl);
+            });
+            
+            // 加载雷达图
+            initRadarChart(skills);
+            
+            // 退出登录功能
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                // 清除本地存储
+                localStorage.removeItem('username');
+                localStorage.removeItem('password');
+                localStorage.removeItem('token');
+                localStorage.removeItem('loginTime');
+                
+                // 跳转回登录页
+                window.location.href = '/index.html';
+            });
+        });
+        
+        // 初始化雷达图
+        function initRadarChart(skills) {
+            const chartDom = document.getElementById('skillRadarChart');
+            const myChart = echarts.init(chartDom);
+            
+            const option = {
+                backgroundColor: 'transparent',
+                tooltip: {
+                    trigger: 'item'
+                },
+                radar: {
+                    indicator: skills.map(skill => ({ name: skill.name, max: 100 })),
+                    splitNumber: 4,
+                    splitLine: {
+                        lineStyle: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    },
+                    name: {
+                        color: '#fff'
+                    }
+                },
+                series: [{
+                    type: 'radar',
+                    data: [{
+                        value: skills.map(skill => skill.value),
+                        name: '技能水平',
+                        areaStyle: {
+                            color: 'rgba(0, 183, 238, 0.6)'
+                        },
+                        lineStyle: {
+                            color: 'rgba(0, 183, 238, 0.8)',
+                            width: 2
+                        },
+                        itemStyle: {
+                            color: '#24c9ff'
+                        }
+                    }]
+                }]
+            };
+            
+            myChart.setOption(option);
+            
+            // 窗口大小变化时重绘图表
+            window.addEventListener('resize', function() {
+                myChart.resize();
+            });
+        }
+    </script>
 </body>
 </html>
