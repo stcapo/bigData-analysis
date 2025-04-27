@@ -7,6 +7,55 @@
 
 
 <body>
+<script>
+    // 格式化日期为 yyyy-MM-dd 格式
+    function formatDate() {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    // 格式化时间为 HH:mm:ss 格式
+    function formatTime() {
+        const date = new Date();
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}`;
+    }
+
+    // 格式化日期和时间为 yyyy-MM-dd HH:mm:ss 格式
+    function formatDateTime() {
+        return formatDate() + ' ' + formatTime();
+    }
+
+    // 更新页面上的所有日期和时间
+    function updateDateTime() {
+        // 更新日期显示
+        document.querySelectorAll('.date-display').forEach(element => {
+            element.textContent = formatDate();
+        });
+
+        // 更新时间显示
+        document.querySelectorAll('.time-display').forEach(element => {
+            element.textContent = formatTime();
+        });
+
+        // 更新日期时间显示
+        document.querySelectorAll('.datetime-display').forEach(element => {
+            element.textContent = formatDateTime();
+        });
+    }
+
+    // 页面加载完成后初始化日期时间并设置定时更新
+    document.addEventListener('DOMContentLoaded', function() {
+        updateDateTime();
+        // 每秒更新一次时间
+        setInterval(updateDateTime, 1000);
+    });
+</script>
 <div class="bnt">
   <div class="topbnt_left fl">
    <ul><li><a href="./traffic.html">交通分析</a></li>
@@ -44,7 +93,7 @@
      </div>
     </div>
     <div class="plefttoday"><h2 class="tith2">今日交通指数统计</h2>
-    <div class="lefttoday_tit" style=" height:8%"><p class="fl">地区：北京</p><p class="fr">2025-03-23</p></div>
+    <div class="lefttoday_tit" style=" height:8%"><p class="fl">地区：北京</p><p class="fr"><span class="date-display"></span></p></div>
     <div class="lefttoday_number">
       <div class="widget-inline-box text-center fl">
         <p>平均指数</p>
@@ -121,7 +170,7 @@
           </div>
         <div class="mrbox_top_right">
           <div class="hdrightboxtop"><h2 class="tith2">今日拥堵排行</h2>
-            <div class="lefttoday_tit" style="height:4%"><p class="fl">时间：2025-03-23</p><p class="fr">更新时间：10:30</p></div>
+            <div class="lefttoday_tit" style="height:4%"><p class="fl">时间：<span class="date-display"></span></p><p class="fr">更新时间：<span class="time-short-display"></span></p></div>
             <div class="left2_table hdleft2_table">
                <ul>
                     <li>
@@ -192,9 +241,9 @@
                     </li>
                </ul>
             </div>
-            
+
             <h2 class="tith2">昨日拥堵排行</h2>
-            <div class="lefttoday_tit" style="height:4%"><p class="fl">时间：2025-03-22</p><p class="fr">统计时段：全天</p></div>
+            <div class="lefttoday_tit" style="height:4%"><p class="fl">时间：<span class="yesterday-display"></span></p><p class="fr">统计时段：全天</p></div>
             <div class="left2_table hdleft2_table">
                <ul>
                     <li>
@@ -795,7 +844,5 @@ window.addEventListener("resize", function() {
     myChart8.resize();
 });
 </script>
-
-
 </body>
 </html>

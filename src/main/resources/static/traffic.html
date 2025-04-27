@@ -7,6 +7,55 @@
 <script src="./beijing.js"></script>
 
 <body>
+<script>
+// 格式化日期为 yyyy-MM-dd 格式
+function formatDate() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// 格式化时间为 HH:mm:ss 格式
+function formatTime() {
+    const date = new Date();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
+}
+
+// 格式化日期和时间为 yyyy-MM-dd HH:mm:ss 格式
+function formatDateTime() {
+    return formatDate() + ' ' + formatTime();
+}
+
+// 更新页面上的所有日期和时间
+function updateDateTime() {
+    // 更新日期显示
+    document.querySelectorAll('.date-display').forEach(element => {
+        element.textContent = formatDate();
+    });
+
+    // 更新时间显示
+    document.querySelectorAll('.time-display').forEach(element => {
+        element.textContent = formatTime();
+    });
+
+    // 更新日期时间显示
+    document.querySelectorAll('.datetime-display').forEach(element => {
+        element.textContent = formatDateTime();
+    });
+}
+
+// 页面加载完成后初始化日期时间并设置定时更新
+document.addEventListener('DOMContentLoaded', function() {
+    updateDateTime();
+    // 每秒更新一次时间
+    setInterval(updateDateTime, 1000);
+});
+</script>
 <div class="wpbox">
 <div class="bnt">
   <div class="topbnt_left fl">
@@ -30,19 +79,19 @@
 <div class="left1">
     <div class="aleftboxttop pt1">
         <h2 class="tith2">今日区域拥堵排行</h2>
-        <div class="lefttoday_tit" style="height:8%"><p class="fl">更新时间：2025-03-22 10:30:45</p></div>
+        <div class="lefttoday_tit" style="height:8%"><p class="fl">更新时间：<span class="datetime-display"></span></p></div>
         <div id="area_congestion_ranking" class="aleftboxtbott_contr" style="height:85%"></div>
     </div>
-    
+
     <div class="aleftboxtmidd">
         <h2 class="tith2 pt2">今日天气情况</h2>
-        <div class="lefttoday_tit" style="height:8%"><p class="fl">北京市</p><p class="fr">2025-03-22</p></div>
+        <div class="lefttoday_tit" style="height:8%"><p class="fl">北京市</p><p class="fr"><span class="date-display"></span></p></div>
         <div id="weather_info" class="aleftboxtmiddcont" style="height:78%"></div>
     </div>
-  
+
     <div class="aleftboxtbott">
         <h2 class="tith2">全部道路拥堵情况</h2>
-        <div class="lefttoday_tit" style="height:6%"><p class="fl">实时数据</p><p class="fr">更新：10:30:45</p></div>
+        <div class="lefttoday_tit" style="height:6%"><p class="fl">实时数据</p><p class="fr">更新：<span class="time-display"></span></p></div>
         <div id="all_roads_congestion" class="aleftboxtbott_cont2"></div>
     </div>
 </div>
@@ -57,7 +106,7 @@
         <div class="amidd_bott">
             <div class="amiddboxtbott1 fl" >
                 <h2 class="tith2 pt1">普通道路拥堵情况</h2>
-                <div class="lefttoday_tit"><p class="fl">统计时间</p><p class="fr">2025-03-22</p></div>
+                <div class="lefttoday_tit"><p class="fl">统计时间</p><p class="fr"><span class="date-display"></span></p></div>
                 <div id="normal_roads_congestion" class="amiddboxtbott1content2"></div>
             </div>
 
